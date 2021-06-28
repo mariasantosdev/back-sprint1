@@ -9,5 +9,4 @@ public enum Cor {
     CINZA,
     ROSA,
     VERDE;
-
 }
