@@ -1,4 +1,4 @@
-Desafios para treinar Stream API, a ideia é fazer todos os exercícios utilizando:
+Desafios para treinar Stream API, faça os seguintes exercícios:
 
 1 - Mostrar todas as camisetas
 
