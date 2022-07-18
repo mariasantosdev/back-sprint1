@@ -41,16 +41,16 @@ public class Main {
         System.out.println(produto);
 
         //buscando todos os produtos disponiveis para cada tamanho
-        for (Tamanho tamanho : Tamanho.values()) {
+        Stream.of(Tamanho.values()).forEach(tamanho -> {
             List<Produto> produtosPorTamanho = produtos.stream().filter(p -> p.getTamanhosDisponiveis().contains(tamanho)).collect(toList());
             System.out.println("Tamanho:" + tamanho);
             produtosPorTamanho.forEach(System.out::println);
-        }
+        });
 
         //contando quantos produtos cada cor possui
-        for (Cor cor : Cor.values()) {
-            long total = produtos.stream().filter(p -> p.getCor().equals(cor)).count();
-            System.out.println(cor + " [total de produtos: " + total + "]");
-        }
+        Stream.of(Cor.values()).forEach(c -> {
+            long count = produtos.stream().filter(p -> c.equals(p.getCor())).count();
+            System.out.println(c + " [total de produtos: " + count + "]");
+        });
     }
 }
