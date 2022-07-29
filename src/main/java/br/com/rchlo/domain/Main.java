@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class Main {
 
@@ -41,16 +41,27 @@ public class Main {
         System.out.println(produto);
 
         //buscando todos os produtos disponiveis para cada tamanho
+        Map<Tamanho, List<Produto>> produtosDisponiveisPorTamanho = new HashMap<>();
         Stream.of(Tamanho.values()).forEach(tamanho -> {
             List<Produto> produtosPorTamanho = produtos.stream().filter(p -> p.getTamanhosDisponiveis().contains(tamanho)).collect(toList());
-            System.out.println("Tamanho:" + tamanho);
-            produtosPorTamanho.forEach(System.out::println);
+            produtosDisponiveisPorTamanho.put(tamanho, produtosPorTamanho);
         });
+        System.out.println(produtosDisponiveisPorTamanho);
+
+        Map<Tamanho, List<Produto>> produtosPorTamanho = Arrays.stream(Tamanho.values())
+                .collect(groupingBy(tamanho -> tamanho, flatMapping(tamanho -> produtos.stream().filter(p -> p.getTamanhosDisponiveis().contains(tamanho)), toList())));
+        System.out.println(produtosPorTamanho);
 
         //contando quantos produtos cada cor possui
-        Stream.of(Cor.values()).forEach(c -> {
-            long count = produtos.stream().filter(p -> c.equals(p.getCor())).count();
-            System.out.println(c + " [total de produtos: " + count + "]");
+        Map<Cor, Long> quantidadeProdutosPorCor = Arrays.stream(Cor.values())
+                .collect(groupingBy(cor -> cor, mapping(cor -> produtos.stream().filter(p -> p.getCor().equals(cor)), counting())));
+        System.out.println(quantidadeProdutosPorCor);
+
+        Map<Cor, Long> qtdProdutosPorCor = new HashMap<>();
+        Stream.of(Cor.values()).forEach(cor -> {
+            long count = produtos.stream().filter(p -> p.getCor().equals(cor)).count();
+            qtdProdutosPorCor.put(cor, count);
         });
+        System.out.println(qtdProdutosPorCor);
     }
 }
